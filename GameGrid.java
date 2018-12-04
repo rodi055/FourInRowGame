@@ -2,8 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 class GameGrid extends JPanel {
-    private static final int rows = 6;
-    private static final int cols = 7;
+    private static final int rows = Game.rows;
+    private static final int cols = Game.cols;
 
     public GameGrid() {
     }
@@ -11,37 +11,39 @@ class GameGrid extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int width = getSize().width;
-        int height = getSize().height;
+        int componentWidth = getSize().width;
+        int componentHeight = getSize().height;
+        int cellHeight = componentHeight / rows;
+        int cellWidth = componentWidth / cols;
 
-        int rowHt = height / rows;
-        for (int i = 0; i < rows; i++) {
-            g.drawLine(0, i * rowHt, width, i * rowHt);
-        }
-
-        int rowWid = width / (cols);
-        for (int i = 0; i < cols; i++) {
-            g.drawLine(i * rowWid, 0, i * rowWid, height);
-        }
-
-        drowTokens(g, rows, cols, rowHt, rowWid);
+        drawGrid(g, componentWidth, componentHeight, cellHeight, cellWidth);
+        drowTokens(g, cellHeight, cellWidth);
     }
 
-    private void drowTokens(Graphics g, int rows, int cols, int rowHt, int rowWid) {
+    private void drawGrid(Graphics g, int width, int height, int cellHeight, int cellWidth) {
+        for (int i = 0; i < rows; i++) {
+            g.drawLine(0, i * cellHeight, width, i * cellHeight);
+        }
+        for (int i = 0; i < cols; i++) {
+            g.drawLine(i * cellWidth, 0, i * cellWidth, height);
+        }
+    }
+
+    private void drowTokens(Graphics g, int cellHeight, int cellWidth) {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                drawBlueOrRed(g, rowHt, rowWid, i, j);
+                drawBlueOrRed(g, cellHeight, cellWidth, i, j);
             }
         }
     }
 
-    private void drawBlueOrRed(Graphics g, int rowHt, int rowWid, int i, int j) {
-        if (GameInfo.isPlayer1(i, j)) {
+    private void drawBlueOrRed(Graphics g, int cellHeight, int cellWidth, int i, int j) {
+        if (Game.isFirstPlayer(i, j)) {
             g.setColor(Color.BLUE);
-            g.fillOval(j * rowWid, i * rowHt, rowWid, rowHt);
-        } else if (GameInfo.isPlayer2(i, j)) {
+            g.fillOval(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
+        } else if (Game.isSecondPlayer(i, j)) {
             g.setColor(Color.RED);
-            g.fillOval(j * rowWid, i * rowHt, rowWid, rowHt);
+            g.fillOval(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
         }
     }
 }

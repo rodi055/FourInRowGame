@@ -1,9 +1,9 @@
 import javax.swing.*;
 
-public class GameInfo {
-    private static final int rows = 6;
-    private static final int cols = 7;
-    private static int[][] matrix = new int[6][7];
+public class Game {
+    public static final int rows = 6;
+    public static final int cols = 7;
+    private static int[][] matrix = new int[rows][cols];
 
     public static boolean isColumnFull(int col) {
         if (matrix[0][col] != 0) { //if there is a token in the upper row
@@ -74,16 +74,20 @@ public class GameInfo {
                 int lastJ = j + 3 * dj;
                 if (0 <= lastI && lastI < rows && 0 <= lastJ && lastJ < cols) {
                     int p = matrix[i][j];
-                    if (p != 0
-                            && p == matrix[i + di][j + dj]
-                            && p == matrix[i + 2 * di][j + 2 * dj]
-                            && p == matrix[lastI][lastJ]) {
+                    if (isARow(di, dj, i, j, lastI, lastJ, p)) {
                         return p;
                     }
                 }
             }
         }
         return null;
+    }
+
+    private static boolean isARow(int di, int dj, int i, int j, int lastI, int lastJ, int p) {
+        return p != 0
+                && p == matrix[i + di][j + dj]
+                && p == matrix[i + 2 * di][j + 2 * dj]
+                && p == matrix[lastI][lastJ];
     }
 
     public static void play(int finalJ, boolean[] playerOne) {
@@ -101,14 +105,14 @@ public class GameInfo {
         }
     }
 
-    public static boolean isPlayer1(int i, int j) {
+    public static boolean isFirstPlayer(int i, int j) {
         if (matrix[i][j] == 1) {
             return true;
         }
         return false;
     }
 
-    public static boolean isPlayer2(int i, int j) {
+    public static boolean isSecondPlayer(int i, int j) {
         if (matrix[i][j] == 2) {
             return true;
         }

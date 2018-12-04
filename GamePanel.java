@@ -20,7 +20,6 @@ class GamePanel extends JPanel {
             createButton(player, panel, j);
         }
         add(panel);
-
         createClearButton();
     }
 
@@ -43,9 +42,9 @@ class GamePanel extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameInfo.play(finalJ, player);
+                Game.play(finalJ, player);
                 gameGrid.repaint();
-                if (GameInfo.checkWinningOrDraw()) {
+                if (Game.checkWinningOrDraw()) {
                     resetGrid();
                 } else {
                     enableOrDisableButton(button, finalJ);
@@ -57,7 +56,7 @@ class GamePanel extends JPanel {
     }
 
     private void enableOrDisableButton(JButton button, int col) {
-        if (GameInfo.isColumnFull(col)) {
+        if (Game.isColumnFull(col)) {
             button.setEnabled(false);
         } else {
             button.setEnabled(true);
@@ -65,7 +64,7 @@ class GamePanel extends JPanel {
     }
 
     private void resetGrid() {
-        GameInfo.resetGrid();
+        Game.resetGrid();
         for (int j = 0; j < cols; j++) {
             buttons[j].setEnabled(true);
         }
