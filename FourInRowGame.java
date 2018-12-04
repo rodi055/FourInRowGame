@@ -6,7 +6,7 @@ public class FourInRowGame {
         GameGrid gameGrid = new GameGrid();
         GamePanel gamePanel = new GamePanel(gameGrid);
 
-        JFrame game = new JFrame();
+        JFrame game = new JFrame("Four In A Row Game");
         game.setSize(600, 600);
         game.add(gameGrid, BorderLayout.CENTER);
         game.add(gamePanel, BorderLayout.SOUTH);
